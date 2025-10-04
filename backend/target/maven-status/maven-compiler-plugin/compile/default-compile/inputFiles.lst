@@ -1,0 +1,17 @@
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\mapper\MessageMapper.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\service\UserService.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\controller\AuthController.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\entity\User.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\security\JwtUtil.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\security\SecurityConfig.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\MessengerApplication.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\entity\Message.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\mapper\UserMapper.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\service\MessageService.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\dto\UserDTO.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\repository\MessageRepository.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\config\WebSocketConfig.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\controller\MessageController.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\repository\UserRepository.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\config\ChatWebSocketHandler.java
+C:\Users\cauaa\messenger-fullstack-pro\backend\src\main\java\com\example\messenger\dto\MessageDTO.java

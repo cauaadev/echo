@@ -1,11 +1,11 @@
 package com.example.messenger.dto;
 
-import com.example.messenger.security.Role;
 import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class RegisterRequest {
+public class UserDTO {
+    private Long id;
     private String username;
-    private String password;
-    private Role role;
+    private String password; // apenas para requests
+    private String avatarUrl;
 }
