@@ -1,8 +1,12 @@
 🟢 Echo - Messenger Fullstack
 
 Status: Em desenvolvimento
+##
 Frontend: Vue.js / React
+
+##
 Backend: Java (Spring Boot)
+##
 Banco de Dados: MySQL
 
 📘 Sobre o Echo
