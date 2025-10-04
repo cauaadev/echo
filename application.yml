@@ -1,0 +1,7 @@
+app:
+  jwt:
+    issuer: messenger-app
+    # Defina este valor por variável de ambiente JWT_SECRET_BASE64 (Base64 de 32 bytes p/ HS256)
+    secret: ${JWT_SECRET_BASE64}
+    # 30 minutos (ajuste conforme necessário)
+    access-ttl-millis: 1800000
