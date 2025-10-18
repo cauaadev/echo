@@ -1,0 +1,5 @@
+app:
+  jwt:
+    issuer: messenger-app
+    secret: ${JWT_SECRET_BASE64}
+    access-ttl-millis: 1800000

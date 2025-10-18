@@ -1,0 +1,16 @@
+# Backend
+target/
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+**/*.iml
+.idea/
+.git/
+.gitignore
+README.md
+Dockerfile
+
+# Frontend
+node_modules/
+build/
+dist/
+npm-debug.log*

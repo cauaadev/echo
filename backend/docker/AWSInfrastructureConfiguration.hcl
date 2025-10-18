@@ -1,0 +1,17 @@
+project_name      = "meuapp"
+aws_region        = "us-east-1"
+aws_account_id    = "<AWS_ACCOUNT_ID>"
+azs               = ["us-east-1a", "us-east-1b"]
+public_subnets    = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnets   = ["10.0.101.0/24", "10.0.102.0/24"]
+alb_cert_arn      = "<ACM_ARN_ALB>"
+cloudfront_cert_arn = "<ACM_ARN_CLOUDFRONT_US_EAST_1>"
+domain_name       = "exemplo.com"
+backend_domain    = "api.exemplo.com"
+frontend_domain   = "app.exemplo.com"
+db_username       = "appuser"
+db_password       = "<SENHA_FORTE>"
+desired_count     = 2
+fargate_cpu       = 512
+fargate_memory    = 1024
+container_port    = 8080

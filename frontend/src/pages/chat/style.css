@@ -1,0 +1,58 @@
+/* css */
+:root{
+    --bg:#0f112b;--pane:#15183a;--pane-2:#1b1f47;--border:rgba(255,255,255,.08);--text:#e9ecff;--muted:#9aa3d0;
+    --primary:#4d6aff;--accent:#00baff;--danger:#ff3b30;--success:#1ea672;
+}
+.chat-container{display:grid;grid-template-columns:300px 1fr;gap:0;height:100vh;background:radial-gradient(1200px 600px at -10% -10%,rgba(77,106,255,.12),transparent),radial-gradient(1000px 500px at 120% 120%,rgba(0,186,255,.10),transparent),var(--bg);color:var(--text);overflow:hidden}
+.user-list{border-right:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent),var(--pane)}
+.profile-header{position:relative;padding:16px;display:flex;align-items:center;gap:12px}
+.profile-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;cursor:pointer;border:1px solid var(--border);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.profile-menu{position:absolute;top:72px;left:16px;z-index:50;background:var(--pane-2);border:1px solid var(--border);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6;min-width:180px;box-shadow:0 20px 80px rgba(0,0,0,.4)}
+.profile-menu button{all:unset;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--text);display:flex;align-items:center;gap:8px}
+.profile-menu button:hover{background:rgba(255,255,255,.06)}
+.search-row{display:flex;gap:8px;padding:0 16px}
+.search-user{flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#1f2340;color:var(--text);outline:none}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:#1f2340;color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer}
+h3{padding:16px 16px 10px;margin:0;color:var(--muted);font-weight:600;letter-spacing:.4px}
+.users-ul{list-style:none;margin:0;padding:0 8px 8px;display:flex;flex-direction:column;gap:6;height:calc(100vh - 170px);overflow:auto}
+.user-item{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:transform .12s, background .15s, border .15s}
+.user-item:hover{background:rgba(255,255,255,.03);border-color:var(--border);transform:translateY(-1px)}
+.user-item.active{background:linear-gradient(180deg,rgba(77,106,255,.12),rgba(255,255,255,.02));border-color:rgba(77,106,255,.3)}
+.avatar-badge img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
+.user-meta{display:flex;flex-direction:column;gap:2px}
+.user-title{font-size:14px}
+.user-subtitle{font-size:12px;color:var(--muted)}
+.chat-window{display:flex;flex-direction:column;height:100%;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent),var(--pane)}
+.chat-window-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
+.peer-title{font-weight:700}
+.actions{display:flex;gap:10px}
+.pill-btn{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);cursor:pointer}
+.pill-btn:hover{background:rgba(255,255,255,.1)}
+.messages{flex:1;padding:16px;overflow:auto;display:flex;flex-direction:column;gap:8}
+.message{max-width:70%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.04)}
+.message.me{align-self:flex-end;background:linear-gradient(180deg,rgba(77,106,255,.18),rgba(255,255,255,.04));border-color:rgba(77,106,255,.35)}
+.input-area{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:rgba(255,255,255,.02)}
+.input-area input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:#1f2340;color:var(--text);outline:none}
+.send-btn{padding:12px 14px;border-radius:12px;border:0;background:linear-gradient(135deg,var(--accent),#005aff);color:#fff;cursor:pointer}
+.mini-toast{background:rgba(17,18,33,0.92);color:#fff;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;max-width:320px;display:flex;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.32)}
+.mini-toast-texts{display:flex;flex-direction:column}
+.mini-toast-texts strong{font-size:13px}
+.mini-toast-texts span{font-size:12px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+.toasts{position:fixed;bottom:16px;left:16px;display:flex;flex-direction:column;gap:8;z-index:9999}
+
+/* Call overlay premium */
+.call-overlay{position:fixed;inset:0;background:rgba(4,6,20,.55);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9998}
+.call-card{width:860px;max-width:95vw;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent),#0f112b;border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+.call-header{display:flex;align-items:center;justify-content:space-between}
+.call-actions{display:flex;gap:8px}
+.btn-accept{display:flex;align-items:center;gap:6px;background:var(--success);border:0;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
+.btn-decline{display:flex;align-items:center;gap:6px;background:var(--danger);border:0;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
+.call-videos{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;min-height:360px}
+.remote-video{width:100%;height:360px;background:#06071a;border-radius:12px;object-fit:cover;border:1px solid var(--border)}
+.local-video{width:100%;height:360px;background:#06071a;border-radius:12px;object-fit:cover;border:1px solid var(--border)}
+.call-audio-visual{display:flex;align-items:center;justify-content:center;padding:24px;gap:12px}
+.call-audio-visual img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
+.status-text{opacity:.9}
+.call-controls{display:flex;gap:10px;justify-content:center;padding:6px}
+.circle-btn{width:44px;height:44px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.circle-btn:hover{background:rgba(255,255,255,.1)}
