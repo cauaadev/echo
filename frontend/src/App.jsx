@@ -1,5 +1,4 @@
-﻿// javascript
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState, useRef } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Chat from "./pages/chat/Chat.jsx";
 import Help from "./pages/help/Help.jsx";
@@ -8,7 +7,7 @@ import Login from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import ForgotPassword from "./pages/forgot/ForgotPassword.jsx";
 import api from "./services/api/api";
-import ws from "./services/ws";
+import wsClient, { announcePresence } from "./services/ws/client"; // use concrete client
 
 function addCacheBuster(url) {
     if (!url) return url;
@@ -22,6 +21,9 @@ function App() {
         const saved = localStorage.getItem("user");
         return saved ? JSON.parse(saved) : null;
     });
+
+    // keep tokenRef for cleanup in unload
+    const tokenRef = useRef(localStorage.getItem("token"));
 
     const handleUserUpdate = (updated) => {
         const merged = { ...(user || {}), ...(updated || {}) };
@@ -47,6 +49,7 @@ function App() {
                 setUser(merged);
                 localStorage.setItem("user", JSON.stringify(merged));
             } catch {
+                // token invalid or server error -> force logout
                 localStorage.removeItem("user");
                 localStorage.removeItem("token");
                 setUser(null);
@@ -54,47 +57,78 @@ function App() {
             }
         };
         syncUser();
-    }, [user?.id, navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.id]);
 
     useEffect(() => {
-        if (!user) return;
         const token = localStorage.getItem("token");
-        if (!token) return;
+        tokenRef.current = token;
 
-        ws.connect({ token });
+        if (!user || !token) {
+            // nothing to connect
+            return;
+        }
 
-        const offUpdated = ws.on("user:updated", (payload) => {
-            if (!payload) return;
-            const isMe =
-                (payload.id && payload.id === user.id) ||
-                (payload.username && payload.username === user.username);
-            const avatarBusted = payload.avatarUrl ? addCacheBuster(payload.avatarUrl) : undefined;
+        // connect WS with meId so server can send personal notifications
+        wsClient.connect({ token, meId: user.id });
 
-            if (isMe) {
-                handleUserUpdate({
-                    username: payload.username ?? user.username,
-                    email: payload.email ?? user.email,
-                    avatarUrl: avatarBusted ?? user.avatarUrl,
-                    avatar: avatarBusted ?? user.avatar
-                });
-            }
+        // when connection opens, announce presence ONLINE
+        const offOpen = wsClient.on("open", () => {
+            try { announcePresence("ONLINE"); } catch {}
         });
 
-        return () => {
-            offUpdated?.();
+        // also call announcePresence immediately (connect may already be open)
+        try { announcePresence("ONLINE"); } catch {}
+
+        // ensure we announce OFFLINE when window unloads (best effort)
+        const onBeforeUnload = () => {
+            try { announcePresence("OFFLINE"); } catch {}
+            try { wsClient.disconnect(); } catch {}
         };
-    }, [user]);
+        window.addEventListener("beforeunload", onBeforeUnload);
+
+        return () => {
+            offOpen?.();
+            window.removeEventListener("beforeunload", onBeforeUnload);
+            // don't forcibly disconnect here — leave disconnect to logout or next login flow
+        };
+    }, [user?.id]);
+
+    // App-level logout handler (passed into Chat)
+    const handleLogoutApp = async () => {
+        try {
+            // announce OFFLINE first (best-effort)
+            try { announcePresence("OFFLINE"); } catch {}
+            // disconnect websocket
+            try { wsClient.disconnect(); } catch {}
+        } finally {
+            // persist last users list and clear auth
+            const lastUsers = JSON.parse(localStorage.getItem("lastUsers") || "[]");
+            const entry = {
+                email: user?.email || "",
+                username: user?.username || user?.name || "",
+                avatar: user?.avatar || user?.avatarUrl || "",
+                lastUsedAt: Date.now()
+            };
+            const updatedList = [entry, ...lastUsers.filter(u => !(u.email === entry.email || u.username === entry.username))].slice(0, 5);
+            localStorage.setItem("lastUsers", JSON.stringify(updatedList));
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            setUser(null);
+            navigate("/login", { replace: true });
+        }
+    };
 
     return (
         <Routes>
-            <Route path="/login" element={<Login onLogin={(u) => { setUser(u); }} />} />
+            <Route path="/login" element={<Login onLogin={(u, token) => { setUser(u); if (token) localStorage.setItem("token", token); }} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route
                 path="/"
                 element={
                     user
-                        ? <Chat user={user} onUserUpdate={handleUserUpdate} />
+                        ? <Chat user={user} onUserUpdate={handleUserUpdate} onLogout={handleLogoutApp} />
                         : <Navigate to="/login" replace />
                 }
             />

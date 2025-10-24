@@ -1,4 +1,3 @@
-// javascript
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../services/api/api";
@@ -24,16 +23,19 @@ export default function Login({ onLogin }) {
     useEffect(() => {
         const saved = localStorage.getItem("user");
         if (saved) {
+            // already logged in
             navigate("/", { replace: true });
             return;
         }
         const lu = JSON.parse(localStorage.getItem("lastUsers") || "[]");
-        setLastUsers(lu);
+        // Normaliza avatar (põe cache buster se houver)
+        const normalized = (lu || []).map(u => ({ ...u, avatar: u.avatar ? addCacheBuster(u.avatar) : defaultAvatar }));
+        setLastUsers(normalized);
         const forced = params.get("username");
         if (forced) {
             setUsername(forced);
             setStep("password");
-        } else if (lu.length === 0) {
+        } else if (normalized.length === 0) {
             setStep("username");
         } else {
             setStep("choose");
@@ -114,7 +116,11 @@ export default function Login({ onLogin }) {
                         <div className="account-list">
                             {lastUsers.map(u => (
                                 <button key={`${u.username}-${u.email}`} className="account-item apple" onClick={() => chooseAccount(u)}>
-                                    <img src={u.avatar || defaultAvatar} alt={u.username || u.email} onError={(e) => { e.currentTarget.src = defaultAvatar; }} />
+                                    <img
+                                        src={u.avatar || defaultAvatar}
+                                        alt={u.username || u.email}
+                                        onError={(e) => { e.currentTarget.src = defaultAvatar; }}
+                                    />
                                     <div className="meta">
                                         <strong className="title">{u.username || u.email}</strong>
                                         {u.email && <span className="subtitle">{u.email}</span>}

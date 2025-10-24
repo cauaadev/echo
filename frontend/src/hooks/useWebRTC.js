@@ -1,25 +1,45 @@
-import { useRef } from "react";
+// src/hooks/useWebRTC.js
+import { useRef, useEffect } from "react";
+import ws from "../../services/ws";
 
-export default function useWebRTC(ws, localVideoRef, remoteVideoRef) {
-    const pcRef = useRef(new RTCPeerConnection());
+export default function useWebRTC(localRef, remoteRef) {
+    const pcRef = useRef(null);
 
-    const startCall = async (user) => {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        localVideoRef.current.srcObject = stream;
-        stream.getTracks().forEach(track => pcRef.current.addTrack(track, stream));
+    useEffect(() => {
+        return () => {
+            if (pcRef.current) {
+                try { pcRef.current.close(); } catch {}
+                pcRef.current = null;
+            }
+        };
+    }, []);
 
-        pcRef.current.ontrack = (event) => {
-            remoteVideoRef.current.srcObject = event.streams[0];
+    const startCall = async ({ callee, media }) => {
+        pcRef.current = new RTCPeerConnection({ iceServers: [{ urls: ["stun:stun.l.google.com:19302"] }] });
+        const pc = pcRef.current;
+        pc.onicecandidate = (e) => {
+            if (e.candidate) ws.send("call:ice", { to: callee, candidate: e.candidate });
+        };
+        pc.ontrack = (ev) => {
+            const stream = ev.streams?.[0];
+            if (remoteRef.current && stream) remoteRef.current.srcObject = stream;
         };
 
-        const offer = await pcRef.current.createOffer();
-        await pcRef.current.setLocalDescription(offer);
-        ws.send(JSON.stringify({ type: "call", offer, to: user }));
+        const stream = await navigator.mediaDevices.getUserMedia(media || { audio: true, video: false });
+        if (localRef.current) localRef.current.srcObject = stream;
+        stream.getTracks().forEach(track => pc.addTrack(track, stream));
+
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        ws.send("call:offer", { to: callee, sdp: offer, media });
     };
 
     const endCall = () => {
-        pcRef.current.getSenders().forEach(sender => sender.track.stop());
-        pcRef.current.close();
+        try {
+            pcRef.current?.getSenders?.().forEach(s => s.track?.stop?.());
+            pcRef.current?.close?.();
+        } catch {}
+        pcRef.current = null;
     };
 
     return { startCall, endCall };
