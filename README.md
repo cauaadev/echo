@@ -1,9 +1,4 @@
 # 💬 Echo — Chat em tempo real
-
-<p align="center">
-  <img alt="Echo" src="https://raw.githubusercontent.com/cauaadev/echo/main/.github/echo-banner.png" style="max-width:600px;" />
-</p>
-
 <p align="center">
   <img alt="Status" src="https://img.shields.io/badge/Status-Em%20desenvolvimento-blue?style=for-the-badge" />
   <img alt="Frontend" src="https://img.shields.io/badge/Frontend-React-61DBFB?style=for-the-badge&logo=react&logoColor=white" />
