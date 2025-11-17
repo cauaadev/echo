@@ -92,8 +92,6 @@ Backend (exemplos)
 Frontend (`frontend/.env` ou `.env.local`)
 - VITE_API_BASE=http://localhost:8080/api
 
-Dica: para ambiente local, prefira usar variáveis de ambiente ao invés de deixar segredos em arquivos versionados.
-
 ---
 
 ## Como rodar localmente
@@ -128,12 +126,9 @@ npm install
 # ajuste .env com VITE_API_BASE apontando para a API
 npm run dev
 ```
-
-Observação: se preferir, crie um docker-compose para orquestrar MySQL, backend e frontend.
-
 ---
 
-## Endpoints e WebSocket (esperados / exemplos)
+## Endpoints
 REST (exemplos)
 - POST /api/auth/register
 - POST /api/auth/login
@@ -142,14 +137,6 @@ REST (exemplos)
 - GET  /api/messages
 - POST /api/messages
 - POST /api/uploads/avatar
-
-WebSocket
-- EndPoint STOMP/WebSocket no backend (ex.: `/ws` ou conforme configuração)
-- Tópicos para envio/recebimento de mensagens (ex.: `/topic/messages`, `/app/chat`)
-
-(Verifique a configuração concreta de endpoints no código do backend para rotas exatas.)
-
----
 
 ## Testes
 - Backend: `mvn -f backend/ test` (ou `./mvnw test`)
@@ -185,7 +172,7 @@ Recomenda-se ter testes de integração cobrindo autenticação, envio/recebimen
 ---
 
 ## Licença
-O repositório atualmente não possui licença definida. Se desejar permitir uso externo, adicione uma licença (por exemplo MIT ou Apache‑2.0).
+O repositório atualmente não possui licença definida
 
 ---
 
@@ -195,4 +182,4 @@ Autor: @cauaadev
 
 ---
 
-Obrigado por conferir o Echo! Se quiser, eu posso abrir um PR com este README formatado diretamente no repositório ou adaptar instruções (por exemplo: comandos exatos se você usar Gradle, docker-compose, ou variáveis de ambiente diferentes).
+Obrigado por conferir o Echo!
